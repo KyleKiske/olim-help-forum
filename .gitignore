@@ -1,6 +1,6 @@
 ### VS Code ###
-.vscode/
-env/
-__pycache__/
-node_modules
-.env
+**/node_modules
+**package-lock.json
+**.env
+
+**/build

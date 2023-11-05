@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -7,33 +8,56 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
-    const signUp = () => {
-        axios.post("http://localhost:4000/users/register", {
-            email: email,
-            password: password,
-            username: username,
-        })
-            .then((data) => {
-                if (data.error_message) {
-                    alert(data.error_message);
-                } else {
-                    alert("Account created successfully!");
-                    navigate("/users/login");
-                }
-            })
-            .catch((err) => console.error(err));
-    };
+    // const signUp = () => {
+    //     axios.post("/users/register", {
+    //         email: email,
+    //         password: password,
+    //         username: username,
+    //     })
+    //         .then((data) => {
+    //             if (data.error_message) {
+    //                 alert(data.error_message);
+    //             } else {
+    //                 alert("Account created successfully!");
+    //                 navigate("/users/login");
+    //             }
+    //         })
+    //         .catch((err) => console.error(err));
+    // };
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        //👇🏻 Triggers the function
-        signUp();
-        setEmail("");
-        setUsername("");
-        setPassword("");
+        try {
+            const res = await axios.post("/users/register", {
+                email: email,
+                password: password,
+                username: username,
+            });
+            if (res.status === 200) {
+                setMessage("");
+                console.log("sending email");
+                await sendConfirmEmail(email, username);
+                navigate("/login");
+            }
+        } catch (err) {
+            setMessage(err.response.data.msg);
+        }
+        
+    };
+
+    const sendConfirmEmail = async (toEmail, toUsername) => {
+        try {
+            const res = await axios.post("/api/send-email", { to: toEmail, username: toUsername });
+            if (res.status === 200) {
+                console.log("Email sent");
+            }
+        } catch (err) {
+            console.error("Email sending failed: ", err);
+        }
     };
     
     return (
@@ -67,7 +91,11 @@ const Register = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button className='registerBtn'>REGISTER</button>
+                <Button 
+                    type="submit"
+                    variant='contained'
+                >
+                    REGISTER</Button>
                 <p>
                     Have an account? <Link to='/users/login'>Sign in</Link>
                 </p>

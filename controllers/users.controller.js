@@ -1,4 +1,4 @@
-const { _register, _login } = require("../models/users.model.js");
+const { _register, _login, _changeAvatar } = require("../models/users.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -52,7 +52,18 @@ const register = async (req, res) => {
   }
 };
 
+const changeAvatar = async (avatar, username, res) => {
+  try {
+    const row = await _changeAvatar(avatar, username);
+    res.json(row);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({msg : "unexpected error has occurred"});
+  }
+}
+
 module.exports = {
   register,
   login,
+  changeAvatar
 };

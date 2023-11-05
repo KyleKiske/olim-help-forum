@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css"
@@ -75,7 +76,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={handleSubmit}>SIGN IN</button>
+                <Button variant='oitlined' onClick={handleSubmit}>SIGN IN</Button>
                 <p>
                     Don't have an account? <Link to='/users/register'>Create one</Link>
                 </p>

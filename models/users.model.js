@@ -14,8 +14,18 @@ const _login = (email) => {
         .select("id", "email", "password")
         .where({ email });
 };
+
+const _changeAvatar = (avatar, username) => {
+    console.log(username, avatar)
+    return db("users")
+        .update({ avatar })
+        .where({ username })
+        .returning(["id", "username", "email", "avatar"])
+
+}
   
 module.exports = {
     _register,
-    _login
+    _login,
+    _changeAvatar
 };
