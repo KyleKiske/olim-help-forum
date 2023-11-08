@@ -32,13 +32,7 @@ app.use("/articles", a_router);
 app.use("/categories", c_router);
 app.use("/threads", t_router);
 app.use("/comments", comment_router);
-    
 
-app.get("/api", (req, res) => {
-    res.json({
-        message: "Hello world",
-    });
-});
 
 app.post("/api/send-email", (req, res) => {
     const toEmail = req.body.to;
@@ -91,6 +85,7 @@ app.post('/api/upload', verifyToken, async (req, res) => {
         res.status(500).json({ err: 'Something went wrong' });
     }
 });
+
 // Have Node serve the files for our built React app
 // app.use(express.static(path.resolve(__dirname, "./client/build")));
 app.use(express.static(path.join(__dirname, "/client/build")));

@@ -15,6 +15,12 @@ const _login = (email) => {
         .where({ email });
 };
 
+const _getUserInfo = (id) => {
+    return db("users")
+        .select("id", "username", "email", "avatar")
+        .where({ id });
+}
+
 const _changeAvatar = (avatar, username) => {
     console.log(username, avatar)
     return db("users")
@@ -27,5 +33,6 @@ const _changeAvatar = (avatar, username) => {
 module.exports = {
     _register,
     _login,
-    _changeAvatar
+    _changeAvatar,
+    _getUserInfo
 };

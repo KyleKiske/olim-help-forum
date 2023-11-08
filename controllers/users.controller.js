@@ -1,4 +1,4 @@
-const { _register, _login, _changeAvatar } = require("../models/users.model.js");
+const { _register, _login, _changeAvatar, _getUserInfo } = require("../models/users.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -34,6 +34,15 @@ const login = async (req, res) => {
   }
 };
 
+const getUserInfo = async (id, res) => {
+  try {
+    const row = await _getUserInfo(id);
+    res.json(row);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 const register = async (req, res) => {
   const { email, username, password } = req.body;
 
@@ -65,5 +74,6 @@ const changeAvatar = async (avatar, username, res) => {
 module.exports = {
   register,
   login,
-  changeAvatar
+  changeAvatar,
+  getUserInfo
 };

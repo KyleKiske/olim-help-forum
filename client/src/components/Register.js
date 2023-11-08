@@ -1,8 +1,11 @@
-import Button from '@mui/material/Button';
+import { Button, Typography, Grid, TextField, Container, CssBaseline, Box, Avatar } from '@mui/material';
+import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import React, { useState } from "react";
+import { ThemeProvider, createTheme } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Register.css"
+
+const defaultTheme = createTheme();
 
 const Register = () => {
     const [username, setUsername] = useState("");
@@ -61,46 +64,82 @@ const Register = () => {
     };
     
     return (
-        <main className='register'>
-            <h1 className='registerTitle'>Create an account</h1>
-            <form className='registerForm' onSubmit={handleSubmit}>
-                <label htmlFor='username'>Username</label>
-                <input
-                    type='text'
-                    name='username'
-                    id='username'
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <label htmlFor='email'>Email Address</label>
-                <input
-                    type='text'
-                    name='email'
-                    id='email'
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label htmlFor='password'>Password</label>
-                <input
-                    type='password'
-                    name='password'
-                    id='password'
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button 
-                    type="submit"
-                    variant='contained'
-                >
-                    REGISTER</Button>
-                <p>
-                    Have an account? <Link to='/users/login'>Sign in</Link>
-                </p>
-            </form>
-        </main>
+        <>
+            <ThemeProvider theme={defaultTheme}>
+                <Container component="main" maxWidth="sm">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            mt: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                        className="register-container"
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'info.main' }}>
+                            <LockPersonOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign up
+                        </Typography>
+                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                            <Grid container spacing={2}>
+                                <Grid item sm={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        id="username"
+                                        label="Username"
+                                        name="username"
+                                        autoComplete="username"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item sm={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label="Email Address"
+                                        name="email"
+                                        autoComplete="email"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item sm={12}>
+                                    <TextField
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        autoComplete="new-password"
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2, bgcolor: "secondary.main"}}
+                            >
+                                Sign Up
+                            </Button>
+                            <Grid container justifyContent="flex-end">
+                                <Grid item>
+                                    <Link href="/login" variant="body2">
+                                        Already have an account? Sign in
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Box>
+                </Container>
+            </ThemeProvider>
+        </>
     );
 };
 

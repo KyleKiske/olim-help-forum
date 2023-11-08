@@ -9,6 +9,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Replies from './components/Replies';
 import Thread from './components/Thread';
+import ArticleAndThreadWriter from './components/WriteArticle';
 import Nav from './components/Nav';
 import { Auth } from "./auth/Auth";
 import axios from "axios";
@@ -20,7 +21,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Olim helper
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -65,23 +66,25 @@ const App = () => {
           {token ? (
             <>
               <Route path='/dashboard' element={ <Auth><Home title='Home'/></Auth>} />
-
-              <Route path='/users/login' element={<Login />} />
-              <Route path='/users/register' element={<Register />} />
               <Route path='/:id/replies' element={<Replies />} />
+              <Route path='/thread' element={<Thread />}  />
             </>
           ) : (
             <>
-              <Route path='/thread' element={<Thread />}  />
+              
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/dashboard' element={<Home />} />
               <Route path='/:id/replies' element={<Replies />} />
+              <Route path='/article/new' element={<ArticleWriter />} />
             </>
           )}
         </Routes>
       </div>
-      <Copyright/>
+      <Box sx={{ mt: "5px" }}>
+        <Copyright/>
+      </Box> 
+      
     </AppContext.Provider>
   );
 }
