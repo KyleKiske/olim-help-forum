@@ -20,15 +20,13 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 
 const Forum = () => {
     const { userInfo } = useContext(AppContext);
-    const [categoryList, setCategoryList] = useState();
+    const [categoryList, setCategoryList] = useState([]);
+    const [threadList, setThreadList] = useState([]);
 
     const getAllCategories = async () => {
         try {
-            // const res = [ {name: "222"}]
             const res = await axios.get("/categories");
             const data = res.data;
-            console.log("res");
-            console.log(data);
             console.log("res2");
             setCategoryList(data);
             console.log(categoryList);
@@ -42,16 +40,27 @@ const Forum = () => {
         try {
             const res = await axios.get('/threads');
             const data = res.data;
-            console.log(data);
+            setThreadList(data);
+            console.log("threadlist");
+            console.log(threadList);
         } catch (e) {
             console.log(e);
         }
     }
 
     useEffect(() => {
-        getAllCategories();
-        getAllThreads();
-    }, [])
+        Promise.all([
+            axios.get("/categories"),
+            axios.get('/threads'),
+        ])
+            .then(([resCategories, resThreads]) =>
+                Promise.all([resCategories.data, resThreads.data])
+        )
+        .then(([dataCats, dataThreads]) => {
+            setCategoryList(dataCats);
+            setThreadList(dataThreads);
+        });
+    }, []);
 
     return (
         <>
@@ -67,9 +76,16 @@ const Forum = () => {
                             <Typography>{category.name}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            {threadList.map((thread) => (
+                                thread.category_id == category.id && (
+                                    <Typography key={thread.id}>{thread.title}</Typography>
+                                )
+                            ))}
+                            <Typography>AMOGUS</Typography>
                             <Typography>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
                                 malesuada lacus ex, sit amet blandit leo lobortis eget.
+
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
