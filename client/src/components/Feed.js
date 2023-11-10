@@ -1,13 +1,13 @@
 import React from "react";
+import Grid from '@mui/material/Unstable_Grid2';
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { Button, Stack } from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import "./Nav.css";
 
 import { AppContext } from "../App";
 
-const Nav = (props) => {
+const Feed = (props) => {
     const { token, setToken } = useContext(AppContext);
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const Nav = (props) => {
     };
 
     return (
-        <Stack spacing={2} direction={"row"}>
+        <Stack spacing={1}>
             <Button component={Link} to="/dashboard">
                 Home
             </Button>
@@ -35,4 +35,4 @@ const Nav = (props) => {
     );
 };
 
-export default Nav;
+export default Feed;

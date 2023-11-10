@@ -7,8 +7,10 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
+import Profile from './components/Profile';
 import Replies from './components/Replies';
 import Thread from './components/Thread';
+import Forum from './components/Forum';
 import ArticleAndThreadWriter from './components/WriteArticle';
 import Nav from './components/Nav';
 import { Auth } from "./auth/Auth";
@@ -67,16 +69,19 @@ const App = () => {
             <>
               <Route path='/dashboard' element={ <Auth><Home title='Home'/></Auth>} />
               <Route path='/:id/replies' element={<Replies />} />
-              <Route path='/thread' element={<Thread />}  />
+              <Route path='/thread' element={<Thread />} />
+              <Route path='/profile' element={<Profile />} />
+              {/* <Route path='/forum' element={<Forum />} /> */}
             </>
           ) : (
             <>
-              
+              <Route path='/forum' element={<Forum />} />
+              <Route path="*" element={<Navigate to="/login" />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/dashboard' element={<Home />} />
               <Route path='/:id/replies' element={<Replies />} />
-              <Route path='/article/new' element={<ArticleWriter />} />
+              <Route path='/article/new' element={<ArticleAndThreadWriter />} />
             </>
           )}
         </Routes>

@@ -1,4 +1,8 @@
-const {_create, _getThreadById, _getAllThreads, _getThreadsByCategoryId, _deleteThreadById } = require("../models/threads.model.js");
+const { _create,
+        _getThreadById, 
+        _getThreadsByCategoryIdLimitOrderedByDate, 
+        _getThreadsByCategoryId, 
+        _deleteThreadById } = require("../models/threads.model.js");
 require("dotenv").config();
 
 const createThread = async (req, res) => {
@@ -10,8 +14,8 @@ const createThread = async (req, res) => {
     // } catch (error) {
     //     return res.status(401).json({ error: 'Unauthorized' });
     // }
-    const { author_id } = 1;
-    const { category_id, title, body } = req.body;
+    // const { author_id } = 1;
+    const { category_id, title, body, author_id } = req.body;
     try {
         const row = await _create(category_id, title, body, author_id);
         res.status(201).json({msg: "New thread created"});
@@ -34,7 +38,7 @@ const getThreadById = async (req, res) => {
 }
 
 const getAllThreads = async (req, res) => {
-    _getAllThreads()
+    _getThreadsByCategoryIdLimitOrderedByDate(5)
     .then((data) => {
       res.json(data);
     })
