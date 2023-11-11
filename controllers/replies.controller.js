@@ -1,8 +1,8 @@
 const { _getCategoryById } = require("../models/categories.model.js");
-const { _create, _updateCommentById, _getCommentById, _getCommentsByThreadId, _getCommentsByAuthorId} = require("../models/comments.model.js");
+const { _create, _updateReplyById, _getReplyById, _getRepliesByThreadId, _getRepliesByAuthorId} = require("../models/replies.model.js");
 require("dotenv").config();
 
-const createComment = async (req, res) => {
+const createReply = async (req, res) => {
     const token = req.cookies.token;
     console.log(token);
     const author_id = 1;
@@ -14,18 +14,18 @@ const createComment = async (req, res) => {
     // }
     try {
         const row = await _create(req.body.name);
-        res.status(201).json({msg: "New Comment created"});
+        res.status(201).json({msg: "New Reply added"});
     } catch (error) {
         console.log(error);
         res.status(404).json({msg: error.message});
     }
 }
 
-const updateComment = async (req, res) => {
+const updateReply = async (req, res) => {
     const { id } = req.params;
     const { body } = req.body;
     try {
-        const data = await _updateCommentById(id, body);
+        const data = await _updateReplyById(id, body);
         res.json(data);
     } catch (error) {
         console.log(error);
@@ -33,9 +33,9 @@ const updateComment = async (req, res) => {
     }
 }
 
-const getCommentsByThreadId = async (req, res) => {
+const getRepliesByThreadId = async (req, res) => {
     const {thread_id} = req.body;
-        _getCommentsByThreadId(thread_id)
+        _getRepliesByThreadId(thread_id)
     .then((data) => {
       res.json(data);
     })
@@ -45,10 +45,10 @@ const getCommentsByThreadId = async (req, res) => {
     });
 }
 
-const getCommentById = async (req, res) => {
+const getReplyById = async (req, res) => {
     try {
         const id = req.params.id;
-        const data = await _getCommentById(id);
+        const data = await _getReplyById(id);
         if (data.length === 0) throw new Error(`Comment not found`);
         res.json(data[0]);
     } catch (err) {
@@ -57,10 +57,10 @@ const getCommentById = async (req, res) => {
     }
 };
 
-const getCommentByAuthorId = async (req, res) => {
+const getRepliesByAuthorId = async (req, res) => {
     try {
         const author_id = req.params.id;
-        const data = await _getCommentsByAuthorId(author_id);
+        const data = await _getRepliesByAuthorId(author_id);
         if (data.length === 0) throw new Error(`Author not found`);
         res.json(data);
     } catch (err) {
@@ -80,4 +80,4 @@ const deleteComment = async (req, res) => {
     }
 }
 
-module.exports = { createComment, updateComment, getCommentsByThreadId, getCommentById, getCommentByAuthorId };
+module.exports = { createReply, updateReply, getRepliesByThreadId, getReplyById, getRepliesByAuthorId };

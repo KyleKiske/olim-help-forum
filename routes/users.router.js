@@ -5,7 +5,7 @@ const u_router = express.Router();
 
 u_router.post("/register", register);
 u_router.post("/login", login);
-u_router.post("/:id", getUserInfo);
+u_router.get("/:id", getUserInfo);
 u_router.get("/verify", verifyToken, (req, res) => {
   res.sendStatus(200);
 });

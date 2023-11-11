@@ -34,12 +34,14 @@ const login = async (req, res) => {
   }
 };
 
-const getUserInfo = async (id, res) => {
+const getUserInfo = async (req, res) => {
   try {
-    const row = await _getUserInfo(id);
-    res.json(row);
+    const id = req.params.id;
+    const data = await _getUserInfo(id);
+    if (data.length === 0) throw new Error(`User not found`);
+    res.json(data[0]);
   } catch (err) {
-    console.log(err);
+    res.status(404).json({ msg: "User not found" });   
   }
 }
 

@@ -2,7 +2,8 @@ const { _create,
         _getThreadById, 
         _getThreadsByCategoryIdLimitOrderedByDate, 
         _getThreadsByCategoryId, 
-        _deleteThreadById } = require("../models/threads.model.js");
+        _deleteThreadById,
+        _getThreadRepliesById } = require("../models/threads.model.js");
 require("dotenv").config();
 
 const createThread = async (req, res) => {
@@ -70,4 +71,15 @@ const deleteThreadById = async (req, res) => {
     }
 }
 
-module.exports = { createThread, getThreadById, getAllThreads, getThreadsByCategoryId, deleteThreadById };
+const getThreadRepliesById = async (req, res) => {
+    const thread_id = req.params;
+    try {
+        const data = await _getThreadRepliesById(thread_id);
+        res.json(data);
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({msg: error.message});
+    }
+}
+
+module.exports = { createThread, getThreadById, getAllThreads, getThreadsByCategoryId, deleteThreadById, getThreadRepliesById };

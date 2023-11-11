@@ -3,81 +3,69 @@ import Nav from "./Nav";
 import { Link, useNavigate } from "react-router-dom";
 import Likes from "../utils/Likes";
 import Comments from "../utils/Comments";
+import Container from '@mui/material/Container';
 import axios from "axios";
+import { AppContext } from "../App";
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import Grid from "@mui/system/Unstable_Grid/Grid";
 
 const Home = () => {
+    const { userInfo } = useContext(AppContext)
     const [thread, setThread] = useState("");
-    const [threadList, setThreadList] = useState([]);
+    const [articleList, setArticleList] = useState([]);
 
     const navigate = useNavigate();
 
     //👇🏻 The useEffect Hook
     useEffect(() => {
-        const checkUser = () => {
-            if (!localStorage.getItem("_id")) {
-                navigate("/");
-            } else {
-                fetch("http://localhost:4000/threads")
-                    .then((res) => res.json())
-                    .then((data) => setThreadList(data.threads))
-                    .catch((err) => console.error(err));
-            }
-        };
-        checkUser();
-    }, [navigate]);
-
-    const createThread = () => {
-        let config = {
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-
-        axios.post("http://localhost:4000/api/create/thread", {
-                thread,
-                userId: localStorage.getItem("_id")
-            }, config)
-            .then((res) => res.json())
-            .then((data) => {
-                alert(data.message);
-                setThreadList(data.threads);
-            })
-            .catch((err) => console.error(err));
-    };
+        getAllArticles();
+    }, []);
     
-    //👇🏻 Triggered when the form is submitted
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        //👇🏻 Calls the function
-        createThread();
-        setThread("");
-    };
+    const getAllArticles = async () => {
+        try {
+            const res = await axios.get(`/api/articles`);
+            const data = res.data;
+            setArticleList(data);
+            console.log(data);
+            console.log("articleList");
+            console.log(articleList);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     return (
-        <>
-            <main className='home'>
-                <h2 className='homeTitle'>Create a Thread</h2>
-                <form className='homeForm' onSubmit={handleSubmit}>
-                    {/*--form UI elements--*/}
-                </form>
-    
-                <div className='thread__container'>
-                    {threadList.map((thread) => (
-                        <div className='thread__item' key={thread.id}>
-                            <p>{thread.title}</p>
-                            <div className='react__container'>
-                                <Likes numberOfLikes={thread.likes.length} threadId={thread.id} />
-                                <Comments
-                                    numberOfComments={thread.replies.length}
-                                    threadId={thread.id}
-                                    title={thread.title}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </main>
-        </>
+        <Container maxWidth="md">
+            <Typography variant="h2">Articles</Typography>
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
+                {articleList && articleList.map((article) => { 
+                    return (
+                        <Grid md={6}>
+                            <Card>
+                                {article.main_image ? (
+                                    <CardMedia 
+                                    component="img"
+                                    image={article.main_image} 
+                                    height="200"/>
+                                ) : (
+                                    <CardMedia 
+                                    component="img"
+                                    image="https://res.cloudinary.com/dundmkgym/image/upload/v1699100199/Flag_of_Israel.svg_qbwtbd.webp" 
+                                    height="200"/>    
+                                )}
+                                <CardContent>
+                                    <Typography variant="h4" align="center">{article.title}</Typography>
+                                    <Typography sx={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{article.body}</Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button size='small' href={`/article/${article.id}`}>Learn more</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    )
+                })}
+            </Grid>
+        </Container>
     );
 };
 

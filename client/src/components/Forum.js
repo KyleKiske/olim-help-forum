@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
+import Link from "@mui/material/Link";
 import Box from '@mui/material/Box';
+import Divider from "@mui/material/Divider";
 import Container from '@mui/material/Container';
 import Avatar from "@mui/material/Avatar";
 import { Card, CardMedia, CardContent} from "@mui/material";
@@ -23,35 +25,10 @@ const Forum = () => {
     const [categoryList, setCategoryList] = useState([]);
     const [threadList, setThreadList] = useState([]);
 
-    const getAllCategories = async () => {
-        try {
-            const res = await axios.get("/categories");
-            const data = res.data;
-            console.log("res2");
-            setCategoryList(data);
-            console.log(categoryList);
-            console.log("catList");
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const getAllThreads = async () => {
-        try {
-            const res = await axios.get('/threads');
-            const data = res.data;
-            setThreadList(data);
-            console.log("threadlist");
-            console.log(threadList);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     useEffect(() => {
         Promise.all([
-            axios.get("/categories"),
-            axios.get('/threads'),
+            axios.get("api/categories"),
+            axios.get('api/threads'),
         ])
             .then(([resCategories, resThreads]) =>
                 Promise.all([resCategories.data, resThreads.data])
@@ -63,8 +40,8 @@ const Forum = () => {
     }, []);
 
     return (
-        <>
-            <Typography>dsadasdsad</Typography>
+        <Container maxWidth="md">
+            <Typography variant="h2">Categories</Typography>
             {categoryList && categoryList.map((category) => { 
                 return (
                     <Accordion>
@@ -73,25 +50,22 @@ const Forum = () => {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>{category.name}</Typography>
+                            <Typography >{category.name}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             {threadList.map((thread) => (
                                 thread.category_id == category.id && (
-                                    <Typography key={thread.id}>{thread.title}</Typography>
+                                    <>
+                                        <Divider sx={{ borderBottomWidth: 2, bgcolor: "secondary.light"}}></Divider>
+                                        <Link href={`/threads/${thread.id}`} underline="hover">{thread.title}</Link>
+                                    </>                                     
                                 )
                             ))}
-                            <Typography>AMOGUS</Typography>
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-
-                            </Typography>
                         </AccordionDetails>
                     </Accordion>
                 )
             })}
-        </>
+        </Container>
     )
 }
 

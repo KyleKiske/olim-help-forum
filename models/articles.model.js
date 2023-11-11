@@ -1,23 +1,23 @@
 const { db } = require("../config/db.js");
 const moment = require("moment");
 
-const _create =  (title, body, author_id) => {
+const _create =  (title, body, author_id, main_image) => {
     const created_at = moment().utc().format();
     console.log(created_at);
     return db("articles")
-        .insert({ title, body, author_id, created_at })
-        .returning(["id", "title", "created_at"]);
+        .insert({ title, body, author_id, created_at, main_image })
+        .returning(["id", "title", "created_at", "main_image"]);
 };
   
 const _getArticleById = (id) => {
     return db("articles")
-        .select("id", "title", "body", "author_id", "created_at")
+        .select("id", "title", "body", "author_id", "created_at", "main_image")
         .where({ id });
 };
 
 const _getAllArticles = () => {
     return db("articles")
-        .select("id", "title", "author_id", "created_at").orderBy("created_at", "asc");
+        .select("id", "title", "body", "created_at", "main_image").orderBy("created_at", "asc");
 };
   
 module.exports = {

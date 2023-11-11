@@ -14,7 +14,7 @@ const publishArticle = async (req, res) => {
     //     return res.status(401).json({ error: 'Unauthorized' });
     // }
     try {
-        const row = await _create(req.body.title, req.body.body, 1);
+        const row = await _create(req.body.title, req.body.body, 1, req.body.main_image);
         res.status(201).json({msg: "New article created"});
     } catch (error) {
         console.log(error);

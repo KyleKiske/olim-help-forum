@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import Replies from './components/Replies';
 import Thread from './components/Thread';
 import Forum from './components/Forum';
+import Article from './components/Article';
 import ArticleAndThreadWriter from './components/WriteArticle';
 import Nav from './components/Nav';
 import { Auth } from "./auth/Auth";
@@ -34,6 +35,7 @@ function Copyright() {
 
 const App = () => {
   const [token, setToken] = useState(null);
+  const [uploaded, setUploaded] = useState(null);
   const [userInfo, setUserInfo] = useState({
     user_id: null,
     username: "",
@@ -43,7 +45,7 @@ const App = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [token])
+  }, [token, uploaded])
 
   const fetchUserInfo = async () => {
     try {
@@ -61,27 +63,29 @@ const App = () => {
   }
 
   return (
-    <AppContext.Provider value={{ token, setToken, userInfo, setUserInfo }}>
+    <AppContext.Provider value={{ token, setToken, userInfo, setUserInfo, uploaded, setUploaded }}>
       {token && <Auth><Nav/></Auth>}
       <div className="App">
         <Routes>
           {token ? (
             <>
-              <Route path='/dashboard' element={ <Auth><Home title='Home'/></Auth>} />
+              {/* <Route path='/dashboard' element={ <Auth><Home title='Home'/></Auth>} /> */}
               <Route path='/:id/replies' element={<Replies />} />
-              <Route path='/thread' element={<Thread />} />
+              
               <Route path='/profile' element={<Profile />} />
               {/* <Route path='/forum' element={<Forum />} /> */}
             </>
           ) : (
             <>
+              <Route path='/dashboard' element={<Home />} />
+              <Route path='/threads/:id' element={<Thread />} />
               <Route path='/forum' element={<Forum />} />
               <Route path="*" element={<Navigate to="/login" />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
-              <Route path='/dashboard' element={<Home />} />
               <Route path='/:id/replies' element={<Replies />} />
-              <Route path='/article/new' element={<ArticleAndThreadWriter />} />
+              <Route path='/article/:id' element={<Article />} />
+              <Route path='/article/new' element={<ArticleAndThreadWriter moduleChoice="modulesArticle" />} />
             </>
           )}
         </Routes>

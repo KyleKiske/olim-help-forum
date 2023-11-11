@@ -26,7 +26,7 @@ const Login = () => {
     const handleSubmit = async () => {
         console.log(1231321);
         try {
-            const res = await axios.post("http://localhost:4000/users/login", {
+            const res = await axios.post("/api/users/login", {
               email,
               password,
             });
@@ -40,23 +40,6 @@ const Login = () => {
           }
     };
 
-    // const loginUser = () => {
-    //     axios.post("http://localhost:4000/users/login", {
-    //             email,
-    //             password,
-    //         }, config)
-    //         .then((data) => {
-    //             if (data.error_message) {
-    //                 alert(data.error_message);
-    //             } else {
-    //                 alert("Logged in successfully");
-    //                 setToken(res.data);
-    //                 navigate("/dashboard");
-    //             }
-    //         })
-    //         .catch((err) => console.error(err));
-    // };
-    
 
     return (
         <>

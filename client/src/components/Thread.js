@@ -10,18 +10,11 @@ import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Pagination from "@mui/material/Pagination";
+import ArticleAndThreadWriter from "./WriteArticle";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../App";
-
-
-function UserInfo(props) {
-    return(
-        <Avatar src="">
-            
-        </Avatar>
-    )
-}
 
 
 const Thread = () => {
@@ -29,13 +22,13 @@ const Thread = () => {
     const [replyList, setReplyList] = useState([]);
     // const [reply, setReply] = useState("");
     const [title, setTitle] = useState("");
-    const param = useParams();
+    const { id } = useParams();
 
     //Fetch data for forum thread
 
     const getReplies = async() => {
         try {
-            const res = await axios.get(`/thread/${param.id}`);
+            const res = await axios.get(`/api/threads/${id}/replies`);
             const data = await res.json();
             setReplyList(data);
         } catch (e) {
@@ -43,8 +36,14 @@ const Thread = () => {
         }
     }
 
+    useEffect(() => {
+        getReplies();
+    }, []);
+
+
     return ( 
         <>
+            <h1>Thread{id}</h1>
             <Card sx={{display: "flex"}}>
                 <CardMedia>
                     <Avatar alt="Jemy Sharp" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Charles-Leclerc_%28cropped%29.jpg/640px-Charles-Leclerc_%28cropped%29.jpg"/>
@@ -74,6 +73,7 @@ const Thread = () => {
                         </Grid>
                     </Grid>
                 ))}
+            <ArticleAndThreadWriter moduleChoice="modulesReply" />
             {/* </List> */}
         </>
 
@@ -81,18 +81,3 @@ const Thread = () => {
 }
 
 export default Thread;
-
-
-
-
-
-            // <Box>  
-        //     <Grid Container>
-        //         <Grid xs={3}>
-                    
-        //         </Grid>
-        //         <Grid xs={9}>
-
-        //         </Grid>
-        //     </Grid>
-        // </Box>

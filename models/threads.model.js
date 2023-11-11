@@ -34,12 +34,15 @@ const _deleteThreadById = (id) => {
     return db("threads").where({id}).del().returning(["id", "title"]);
 }
 
-// const _getThreadsByCategoryId
+const _getThreadRepliesById = (thread_id) => {
+    return db("replies").select("id","author_id","body","created_at").where({thread_id});
+}
 
 module.exports = {
     _create,
     _getThreadById,
     _getThreadsByCategoryIdLimitOrderedByDate,
     _getThreadsByCategoryId,
-    _deleteThreadById
+    _deleteThreadById,
+    _getThreadRepliesById
 };

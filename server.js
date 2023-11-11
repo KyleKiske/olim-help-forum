@@ -13,7 +13,7 @@ const { a_router } = require("./routes/articles.router.js");
 const { c_router } = require("./routes/categories.router.js");
 const { t_router } = require("./routes/threads.router.js");
 const { verifyToken } = require("./middlewares/verifyToken.js");
-const { comment_router } = require("./routes/comments.router.js");
+const { r_router } = require("./routes/replies.router.js");
 const { changeAvatar } = require("./controllers/users.controller.js")
 const { cloudinary } = require('./utils/cloudinary.js')
 
@@ -27,11 +27,11 @@ app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
 
-app.use("/users", u_router);
-app.use("/articles", a_router);
-app.use("/categories", c_router);
-app.use("/threads", t_router);
-app.use("/comments", comment_router);
+app.use("/api/users", u_router);
+app.use("/api/articles", a_router);
+app.use("/api/categories", c_router);
+app.use("/api/threads", t_router);
+app.use("/api/replies", r_router);
 
 
 app.post("/api/send-email", (req, res) => {
