@@ -23,8 +23,6 @@ const Category = () => {
             const res = await axios.get(`categories/${id}/threads`);
             const data = res.data;
             setThreadList(data);
-            console.log("threadlist");
-            console.log(threadList);
         } catch (e) {
             console.log(e);
         }

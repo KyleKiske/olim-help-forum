@@ -1,8 +1,9 @@
 import { Button, Typography, Grid, TextField, Container, CssBaseline, Box, Avatar } from '@mui/material';
+import Link from '@mui/material/Link';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
-import React, { useState } from "react";
+import { useState } from "react";
 import { ThemeProvider, createTheme } from '@mui/material';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const defaultTheme = createTheme();
@@ -14,23 +15,6 @@ const Register = () => {
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
-
-    // const signUp = () => {
-    //     axios.post("/users/register", {
-    //         email: email,
-    //         password: password,
-    //         username: username,
-    //     })
-    //         .then((data) => {
-    //             if (data.error_message) {
-    //                 alert(data.error_message);
-    //             } else {
-    //                 alert("Account created successfully!");
-    //                 navigate("/users/login");
-    //             }
-    //         })
-    //         .catch((err) => console.error(err));
-    // };
     
     const handleSubmit = async (e) => {
         e.preventDefault();

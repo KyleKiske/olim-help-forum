@@ -3,7 +3,6 @@ const moment = require("moment");
 
 const _create = (author_id, thread_id, body) => {
     const created_at = moment().utc().format();
-    console.log(created_at);
     return db("replies")
         .insert({ author_id, thread_id, body, created_at })
         .returning(["id", "body", "created_at"]);

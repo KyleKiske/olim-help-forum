@@ -26,9 +26,6 @@ const Home = () => {
             const res = await axios.get(`/api/articles`);
             const data = res.data;
             setArticleList(data);
-            console.log(data);
-            console.log("articleList");
-            console.log(articleList);
         } catch (e) {
             console.log(e);
         }

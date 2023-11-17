@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { Button, Stack } from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ForumIcon from '@mui/icons-material/Forum';
+import FeedIcon from '@mui/icons-material/Feed';
 import "./Nav.css";
 
 import { AppContext } from "../App";
@@ -19,13 +21,10 @@ const Nav = (props) => {
     return (
         <Stack spacing={2} direction={"row"}>
             <Button component={Link} to="/dashboard">
-                Home
+                <FeedIcon/> <span style={{ marginLeft: "20px" }}>Home</span>
             </Button>
-            <Button component={Link} to="/users/login">
-                Login
-            </Button>
-            <Button component={Link} to="/users/register">
-                Register
+            <Button component={Link} to="/forum">
+                <ForumIcon/> <span style={{ marginLeft: "20px" }}>Forum</span> 
             </Button>
             <Button component={Link} to="/profile">
                 <AccountBoxIcon/> <span style={{ marginLeft: "20px" }}>Profile</span>

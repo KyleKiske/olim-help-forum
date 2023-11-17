@@ -20,11 +20,10 @@ const Profile = ({ children }) => {
     const navigate = useNavigate();
     const { token, setToken, userInfo, setUserInfo, uploaded, setUploaded } = useContext(AppContext);
 
-    // Logout
 
     const logout = async () => {
         try {
-            const res = await axios.get("/users/logout", {
+            const res = await axios.get("api/users/logout", {
                 headers: {
                     "x-access-token": null,
                 },
@@ -50,7 +49,6 @@ const Profile = ({ children }) => {
         e.preventDefault();
         if (!previewSource) return
         uploadImage(previewSource);
-
     }
 
     // Send avatar to Cloudinary
@@ -61,7 +59,7 @@ const Profile = ({ children }) => {
                 method: "POST",
                 body: JSON.stringify({ data: base64EncodedImage }),
                 headers: { "Content-type": "application/json" }
-            });
+            });            
             setUploaded(true)
         } catch (err) {
             console.log(err)
@@ -82,11 +80,11 @@ const Profile = ({ children }) => {
     }
 
     return (
-        <div style={{ padding: '105px 200px', display: "flex", flexDirection: "column", backgroundColor: '#BFAFF2', backgroundImage: 'inherit', backgroundPosition: 'right', backgroundRepeat: 'no-repeat' }}>
-            <h1 style={{margin: 'auto', borderBottom: '5px dotted #F8D57E', color: 'rgba(255, 255, 255, 1)', marginBottom: '30px' }}>Profile</h1>
+        <div style={{ padding: '105px 200px', display: "flex", flexDirection: "column", backgroundColor: '#AFAFF2', backgroundImage: 'inherit', backgroundRepeat: 'repeat' }}>
+            <h1 style={{margin: 'auto', borderBottom: '5px solid #F8D57E', color: 'rgba(255, 255, 255, 1)', marginBottom: '30px' }}>PROFILE</h1>
             <div className="card-container">
                 <Stack direction="row" spacing={2}>
-                    <Avatar alt="Remy Sharp" src={userInfo.avatar} sx={{ width: 100, height: 100 }} style={{ marginBottom: '8px', border: '5px dotted #F8D57E' }} />
+                    <Avatar alt="Remy Sharp" src={userInfo.avatar} sx={{ width: 100, height: 100 }} style={{ marginBottom: '8px', border: '2px solid #111111' }} />
                 </Stack>
                 <Popup
                     trigger={<Button className="button" style={{ color: '#004F6C', fontSize: '13px' }}> Change avatar </Button>}
@@ -103,7 +101,7 @@ const Profile = ({ children }) => {
                                 {' '}
                                 <form onSubmit={(e) => { handleSubmitFile(e); close() }} style={{ margin: 'auto', display: 'flex', alignItems: 'center' }}>
                                     <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" onChange={handleFileInputChange} style={{ border: '1px white solid' }} />
-                                    <Button style={{ color: '#004F6C' }} type="submit">Submit</Button>
+                                    <Button style={{ color: '#004F6C', backgroundColor: "bisque" }} type="submit">Submit</Button>
                                 </form>
                                 {previewSource && (<Avatar alt="chosen" sx={{ width: 250, height: 250 }} src={previewSource} className="chosen-image" />)}
                             </div>
@@ -122,12 +120,11 @@ const Profile = ({ children }) => {
                         </div>
                     )}
                 </Popup>
-                <div style={{ marginTop: "25px", display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                     <h1>Welcome Back!</h1>
                     <p>Username: {userInfo ? userInfo.username : "Guest"}</p>
                     <p>Email: {userInfo ? userInfo.email : "N/A"}</p>
-                    <Button style={{
-                        marginTop: '20px', color: '#004F6C' }} onClick={logout}>Logout</Button>
+                    <Button style={{ marginTop: '20px', color: '#FF0004' }} onClick={logout}>Logout</Button>
                     <UserContext.Provider value={{ userInfo, setUserInfo }}>
                         {children}
                     </UserContext.Provider>

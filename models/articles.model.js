@@ -3,7 +3,6 @@ const moment = require("moment");
 
 const _create =  (title, body, author_id, main_image) => {
     const created_at = moment().utc().format();
-    console.log(created_at);
     return db("articles")
         .insert({ title, body, author_id, created_at, main_image })
         .returning(["id", "title", "created_at", "main_image"]);
@@ -15,13 +14,27 @@ const _getArticleById = (id) => {
         .where({ id });
 };
 
-const _getAllArticles = () => {
+const _getAllVisibleArticles = () => {
     return db("articles")
-        .select("id", "title", "body", "created_at", "main_image").orderBy("created_at", "asc");
+        .select("id", "title", "body", "created_at", "main_image", "visible").where('visible', true).orderBy("created_at", "desc");
 };
   
+const _getAllInvisibleArticles = () => {
+    return db("articles")
+        .select("id", "title", "body", "created_at", "main_image", "visible").where('visible', false).orderBy("created_at", "desc");
+};
+  
+const _changeImage = (main_image, id) => {
+    return db("articles")
+        .update({ main_image })
+        .where({ id })
+        .returning(["id", "title", "created_at", "main_image"])
+}
+
 module.exports = {
     _create,
     _getArticleById,
-    _getAllArticles
+    _getAllVisibleArticles,
+    _getAllInvisibleArticles,
+    _changeImage
 };

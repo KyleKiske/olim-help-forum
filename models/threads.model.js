@@ -4,7 +4,6 @@ const moment = require("moment");
 const _create = (category_id, title, body, author_id) => {
     const created_at = moment().utc().format();
     const last_updated = created_at;
-    console.log(created_at);
     return db("threads")
         .insert({ category_id, title, body, author_id, created_at, last_updated })
         .returning(["id", "title"]);

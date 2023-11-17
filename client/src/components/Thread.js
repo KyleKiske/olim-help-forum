@@ -7,11 +7,8 @@ import Avatar from "@mui/material/Avatar";
 import { Card, CardMedia, CardContent} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Pagination from "@mui/material/Pagination";
-import ArticleAndThreadWriter from "./WriteArticle";
+import ArticleAndThreadWriter from "./Writer";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../App";
@@ -23,6 +20,7 @@ const Thread = () => {
     // const [reply, setReply] = useState("");
     const [title, setTitle] = useState("");
     const { id } = useParams();
+
 
     //Fetch data for forum thread
 
@@ -36,9 +34,9 @@ const Thread = () => {
         }
     }
 
-    useEffect(() => {
-        getReplies();
-    }, []);
+    // useEffect(() => {
+    //     getReplies();
+    // }, []);
 
 
     return ( 
@@ -73,7 +71,7 @@ const Thread = () => {
                         </Grid>
                     </Grid>
                 ))}
-            <ArticleAndThreadWriter moduleChoice="modulesReply" />
+            {/* <ArticleAndThreadWriter moduleChoice="modulesReply" /> */}
             {/* </List> */}
         </>
 

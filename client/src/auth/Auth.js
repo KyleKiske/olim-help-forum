@@ -18,15 +18,17 @@ export const Auth = (props) => {
                     },
                 });
                 if (res.status === 200) {
-                   setRedirect(true);
+                    setRedirect(true);
                 }
             } catch (err) {
                 setToken(null);
-                navigate("/users/login");
+                navigate("/login");
             }
-      };
-      localStorage.setItem('token', token.token)
-      verify();
+        };
+        if (!localStorage.getItem('token')){
+            localStorage.setItem('token', token.token)    
+        }
+        verify();
     }, []);
 
     return redirect ? props.children : null;

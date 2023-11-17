@@ -11,7 +11,7 @@ const Likes = ({ numberOfLikes, threadId }) => {
 
         axios.post("http://localhost:4000/api/thread/like", {
                 threadId,
-                userId: localStorage.getItem("_id"),
+                user_Id: localStorage.getItem("_id"),
             }, config)
             .then((res) => res.json())
             .then((data) => {

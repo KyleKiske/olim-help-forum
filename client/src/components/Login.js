@@ -1,8 +1,9 @@
 import { Button, Typography, Grid, TextField, Container, CssBaseline, Box, Avatar } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
+import Link from '@mui/material/Link';
 import { ThemeProvider, createTheme } from '@mui/material';
-import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css"
 import axios from "axios";
 
@@ -13,25 +14,24 @@ const defaultTheme = createTheme();
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const navigate = useNavigate();
     const { setToken } = useContext(AppContext);
+    const token = localStorage.getItem('token');
 
-    let config = {
-        headers: {
-            "Content-Type": "application/json",
+    useEffect(() => {
+        if (token) {
+            navigate('/dashboard'); 
         }
-    }
+    }, []);
 
-    const handleSubmit = async () => {
-        console.log(1231321);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         try {
             const res = await axios.post("/api/users/login", {
               email,
               password,
             });
             if (res.status === 200) {
-              console.log(res.data);
               setToken(res.data);
               navigate("/dashboard");
             }
@@ -98,7 +98,7 @@ const Login = () => {
                             <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <Link href="/register" variant="body2">
-                                        Don't have an account? Create one!
+                                        {"Don't have an account? Create one!"}
                                     </Link>
                                 </Grid>
                             </Grid>

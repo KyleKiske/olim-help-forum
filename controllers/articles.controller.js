@@ -1,20 +1,12 @@
-const { _create, _getAllArticles, _getArticleById} = require("../models/articles.model.js");
+const { _create, _getAllVisibleArticles, _getAllInvisibleArticles, _getArticleById, _changeImage } = require("../models/articles.model.js");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const secret = process.env.ACCESS_TOKEN_SECRET;
 
 const publishArticle = async (req, res) => {
-    const token = req.cookies.token;
-    console.log(token);
-    // try {
-    //     const decoded = jwt.verify(token, secret);
-    //     user_id = decoded.id;  
-    // } catch (error) {
-    //     return res.status(401).json({ error: 'Unauthorized' });
-    // }
     try {
-        const row = await _create(req.body.title, req.body.body, 1, req.body.main_image);
+        const row = await _create(req.body.title, req.body.body, req.body.author_id, req.body.main_image);
         res.status(201).json({msg: "New article created"});
     } catch (error) {
         console.log(error);
@@ -22,8 +14,8 @@ const publishArticle = async (req, res) => {
     }
 }
 
-const getAllArticles = async (req, res) => {
-    _getAllArticles()
+const getAllVisibleArticles = async (req, res) => {
+    _getAllVisibleArticles()
     .then((data) => {
       res.json(data);
     })
@@ -31,6 +23,17 @@ const getAllArticles = async (req, res) => {
       console.log(err);
       res.status(404).json({ msg: "not found" });
     });
+}
+
+const getAllInvisibleArticles = async (req, res) => {
+  _getAllInvisibleArticles()
+  .then((data) => {
+    res.json(data);
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(404).json({ msg: "not found" });
+  });
 }
 
 const getArticleById = async (req, res) => {
@@ -44,4 +47,14 @@ const getArticleById = async (req, res) => {
     }
 };
 
-module.exports = { publishArticle, getAllArticles, getArticleById };
+const changeImage = async (main_image, article_id, res) => {
+  try {
+    const row = await _changeImage(main_image, article_id);
+    res.json(row);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({msg : "unexpected error has occurred"});
+  }
+}
+
+module.exports = { publishArticle, getAllVisibleArticles, getAllInvisibleArticles, getArticleById, changeImage };

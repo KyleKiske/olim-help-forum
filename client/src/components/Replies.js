@@ -34,7 +34,7 @@ const Replies = () => {
             method: "POST",
             body: JSON.stringify({
                 id,
-                userId: localStorage.getItem("_id"),
+                user_Id: localStorage.getItem("_id"),
                 reply,
             }),
             headers: {
