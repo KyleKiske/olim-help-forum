@@ -1,4 +1,4 @@
-const { _create, _getAllVisibleArticles, _getAllInvisibleArticles, _getArticleById, _changeImage, _makeVisible } = require("../models/articles.model.js");
+const { _create, _getAllVisibleArticles, _getAllInvisibleArticles, _getArticleById, _changeImage, _makeVisible, _deleteArticleById } = require("../models/articles.model.js");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
@@ -68,4 +68,15 @@ const makeVisible = async (req, res) => {
   }
 }
 
-module.exports = { publishArticle, getAllVisibleArticles, getAllInvisibleArticles, getArticleById, changeImage, makeVisible };
+const deleteArticleById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const row = await _deleteArticleById(id);
+    res.json(row);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({msg : "unexpected error has occurred"});
+  }
+}
+
+module.exports = { publishArticle, getAllVisibleArticles, getAllInvisibleArticles, getArticleById, changeImage, makeVisible, deleteArticleById };

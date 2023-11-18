@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { Button } from "@mui/material";
 import { useContext } from "react";
 import { AppContext } from "../App";
@@ -84,12 +87,22 @@ const Article = () => {
         }
     }
 
+    const deleteArticle = async () => {
+        try {
+            const res = await axios.delete(`/api/articles/${id}`);
+            const data = res.data;
+            console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return (
         <Container maxWidth="md">
             {!article.visible ? ( 
+                <>
                 <Popup
-                    trigger={<Button className="button" style={{ color: '#004F6C', fontSize: '13px' }}> Change Thumbnail </Button>}
+                    trigger={<Button variant='outlined' style={{ color: '#004F6C', fontSize: '13px' }}> Change Thumbnail </Button>}
                     modal
                     nested
                 >
@@ -122,6 +135,33 @@ const Article = () => {
                         </div>
                     )}
                 </Popup> 
+                <Popup
+                    trigger={<Tooltip title="Delete" sx={{ml: '70%'}}>
+                                <IconButton>
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </Tooltip>}
+                    // <Button variant='outlined' style={{ color: '#004F6C', fontSize: '13px' }}> Delete article </Button>}
+                    modal
+                    nested
+                >
+                    {close => (
+                        <div>
+                            <Button className="close" onClick={close} variant="outlined" color="error">
+                                &times;
+                            </Button>
+                            <div>
+                                <h2>Are you sure you want to delete an article?</h2>
+                                <Button variant="contained" onClick={() => {
+                                    deleteArticle();
+                                    alert('Article deleted!');
+                                    navigate("/editor");
+                                    }}>YES, Delete Article.</Button>
+                            </div>
+                        </div>
+                    )}
+                </Popup> 
+            </>
             ) : (<></>)}
             <Typography variant="h2">{article.title}</Typography>
             {article.main_image ? (

@@ -51,7 +51,7 @@ const Home = () => {
                                 )}
                                 <CardContent>
                                     <Typography variant="h4" align="center">{article.title}</Typography>
-                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.body)}} style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}></div>
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.body)}} style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxHeight: "50px" }}></div>
                                 </CardContent>
                                 <CardActions>
                                     <Button size='small' href={`/article/${article.id}`}>Learn more</Button>

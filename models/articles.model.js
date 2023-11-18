@@ -38,11 +38,18 @@ const _makeVisible = (id) => {
         .returning(["id", "title", "created_at", "main_image"]);
 }
 
+const _deleteArticleById = (id) => {
+    return db("articles")
+        .where({ id })
+        .del();
+}
+
 module.exports = {
     _create,
     _getArticleById,
     _getAllVisibleArticles,
     _getAllInvisibleArticles,
     _changeImage,
-    _makeVisible
+    _makeVisible,
+    _deleteArticleById
 };
