@@ -15,6 +15,7 @@ const { t_router } = require("./routes/threads.router.js");
 const { verifyToken } = require("./middlewares/verifyToken.js");
 const { r_router } = require("./routes/replies.router.js");
 const { changeAvatar } = require("./controllers/users.controller.js")
+const { changeImage } = require("./controllers/articles.controller.js")
 const { cloudinary } = require('./utils/cloudinary.js')
 
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -76,14 +77,30 @@ app.post('/api/upload', verifyToken, async (req, res) => {
         const uploadResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'dev_setups',
         });
+        console.log(req.user);
         await changeAvatar(uploadResponse.url, req.user.email, res)
         console.log('avatar added')
     } catch (err) {
         console.error(err);
-        res.status(500).json({ err: 'Something went wrong' });
+        res.status(500).json({ err: 'Unexpected error has occurred' });
     }
 });
     
+app.post("/api/uploadThumbnail/:articleId", async (req, res) => {
+    try {
+        const fileStr = req.body.data;
+        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'dev_setups',
+        });
+        await changeImage(uploadResponse.url, req.params.articleId, res)
+        console.log('Thumbnail added')
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: 'Unexpected error has occurred' });
+    }
+});
+    
+
 
 // Have Node serve the files for our built React app
 // app.use(express.static(path.resolve(__dirname, "./client/build")));

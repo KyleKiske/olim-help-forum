@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import Nav from "./Nav";
 import { Link, useNavigate } from "react-router-dom";
-import Likes from "../utils/Likes";
-import Comments from "../utils/Comments";
 import Container from '@mui/material/Container';
 import axios from "axios";
 import { AppContext } from "../App";
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid/Grid";
+import DOMPurify from 'dompurify';
 
 const Home = () => {
     const { userInfo } = useContext(AppContext)
@@ -52,7 +51,7 @@ const Home = () => {
                                 )}
                                 <CardContent>
                                     <Typography variant="h4" align="center">{article.title}</Typography>
-                                    <Typography sx={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{article.body}</Typography>
+                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.body)}} style={{overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}></div>
                                 </CardContent>
                                 <CardActions>
                                     <Button size='small' href={`/article/${article.id}`}>Learn more</Button>

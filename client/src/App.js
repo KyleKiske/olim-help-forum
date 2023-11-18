@@ -14,6 +14,7 @@ import Forum from './components/Forum';
 import Article from './components/Article';
 import { ArticleAndThreadWriter, ReplyWriter } from './components/Writer';
 import { ArticleWriter } from './components/ArticleWriter';
+import { ArticleEditor } from './components/Editor';
 // import ReplyWriter from './components/WriteArticle';
 import Nav from './components/Nav';
 import { Auth } from "./auth/Auth";
@@ -82,7 +83,7 @@ const App = () => {
             <Route path='/article/new' element={ <Auth><ArticleAndThreadWriter /></Auth>} />
             <Route path='/reply/new' element={ <Auth><ReplyWriter /></Auth>} />
             <Route path='/articleWriter' element={ <Auth><ArticleWriter /></Auth> } />
-            <Route path='/editor' element={<Auth></Auth>} />
+            <Route path='/editor' element={<Auth><ArticleEditor /></Auth>} />
           </>
         ) : (
           <>

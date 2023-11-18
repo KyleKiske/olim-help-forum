@@ -3,16 +3,17 @@ import ReactQuill from 'react-quill';
 import Button from '@mui/material/Button';
 import 'react-quill/dist/quill.snow.css'
 import { AppContext } from "../App";
+import { useNavigate } from "react-router-dom";
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import { Box } from '@mui/material';
-import Popup from 'reactjs-popup';
 import axios from "axios";
-import { width } from '@mui/system';
+
 
 
 export const ArticleWriter = () => {
+    const navigate = useNavigate();
     const { userInfo } = useContext(AppContext);
     const [title, setTitle] = useState("");
     const [value, setValue] = useState("");
@@ -30,7 +31,8 @@ export const ArticleWriter = () => {
             console.log("main image", mainImage);
             const res = await axios.post("/api/articles/create", { title: title, body: value, author_id: userInfo.user_id, main_image: mainImage });
             if (res.status === 201) {
-                console.log("New article created");
+                alert("New Article created for further editing.")
+                navigate("/editor")
             }
         } catch (err) {
             console.error("Creation of article failed: ", err);
@@ -66,12 +68,7 @@ export const ArticleWriter = () => {
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={() => {
-                    alert('clicked');
-                    createArticle();
-                    console.log(userInfo);
-
-            }}>Submit</Button>
+            <Button variant='contained' onClick={createArticle}>Submit</Button>
         </Container>
     )   
 };

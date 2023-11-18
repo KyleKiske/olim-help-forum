@@ -10,7 +10,7 @@ const _create =  (title, body, author_id, main_image) => {
   
 const _getArticleById = (id) => {
     return db("articles")
-        .select("id", "title", "body", "author_id", "created_at", "main_image")
+        .select("id", "title", "body", "author_id", "created_at", "main_image", "visible")
         .where({ id });
 };
 
@@ -31,10 +31,18 @@ const _changeImage = (main_image, id) => {
         .returning(["id", "title", "created_at", "main_image"])
 }
 
+const _makeVisible = (id) => {
+    return db("articles")
+        .update({ "visible": true })
+        .where({ id })
+        .returning(["id", "title", "created_at", "main_image"]);
+}
+
 module.exports = {
     _create,
     _getArticleById,
     _getAllVisibleArticles,
     _getAllInvisibleArticles,
-    _changeImage
+    _changeImage,
+    _makeVisible
 };

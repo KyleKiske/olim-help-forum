@@ -15,7 +15,6 @@ export const useUserContext = () => {
 }
 
 const Profile = ({ children }) => {
-    const [fileInputState, SetFileInputState] = useState('')
     const [previewSource, setPreviewSource] = useState('')
     const navigate = useNavigate();
     const { token, setToken, userInfo, setUserInfo, uploaded, setUploaded } = useContext(AppContext);
