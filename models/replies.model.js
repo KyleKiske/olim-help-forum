@@ -22,16 +22,16 @@ const _getReplyById = (id) => {
 
 const _getRepliesByThreadId = (thread_id) => {
     return db("replies")
-        .select("title", "author_id",  "body", "created_at")
+        .select("id", "author_id",  "body", "created_at")
         .where({ thread_id })
-        .orderBy(created_at, "asc");
+        .orderBy("created_at", "asc");
 };
   
 const _getRepliesByAuthorId = (author_id) => {
     return db("replies")
-        .select("title", "thread_id", "body", "created_at")
+        .select("id", "thread_id", "body", "created_at")
         .where({ author_id })
-        .orderBy(created_at, "asc");
+        .orderBy("created_at", "asc");
 };
 
 module.exports = {

@@ -5,7 +5,7 @@ require("dotenv").config();
 const createReply = async (req, res) => {
     const token = req.cookies.token;
     console.log(token);
-    const author_id = 1;
+    const { author_id, thread_id, body } = req.body;
     // try {
     //     const decoded = jwt.verify(token, secret);
     //     user_id = decoded.id;  
@@ -13,7 +13,7 @@ const createReply = async (req, res) => {
     //     return res.status(401).json({ error: 'Unauthorized' });
     // }
     try {
-        const row = await _create(req.body.name);
+        const row = await _create(author_id, thread_id, body);
         res.status(201).json({msg: "New Reply added"});
     } catch (error) {
         console.log(error);
@@ -34,15 +34,14 @@ const updateReply = async (req, res) => {
 }
 
 const getRepliesByThreadId = async (req, res) => {
-    const {thread_id} = req.body;
-        _getRepliesByThreadId(thread_id)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(404).json({ msg: "not found" });
-    });
+    try {
+        const thread_id = req.params.thread_id;
+        const data = await _getRepliesByThreadId(thread_id)
+        res.json(data);
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({ msg: "not found" });
+    }
 }
 
 const getReplyById = async (req, res) => {

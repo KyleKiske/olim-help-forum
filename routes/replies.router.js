@@ -6,6 +6,6 @@ r_router.post("/create", createReply);
 r_router.put("/:id", updateReply);
 r_router.get("/:id", getReplyById);
 r_router.get("/author/:id", getRepliesByAuthorId);
-r_router.get("/thread/:id", getRepliesByThreadId);
+r_router.get("/thread/:thread_id", getRepliesByThreadId);
 
 module.exports = { r_router };

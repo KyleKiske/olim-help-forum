@@ -7,12 +7,19 @@ import Avatar from "@mui/material/Avatar";
 import { Card, CardMedia, CardContent} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
+import Paper from '@mui/material/Paper';
 import Pagination from "@mui/material/Pagination";
-import ArticleAndThreadWriter from "./Writer";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../App";
 
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 const Thread = () => {
     const { userInfo } = useContext(AppContext);
@@ -37,8 +44,8 @@ const Thread = () => {
 
     const getReplies = async() => {
         try {
-            const res = await axios.get(`/api/threads/${id}/replies`);
-            const data = await res.json();
+            const res = await axios.get(`/api/replies/thread/${id}`);
+            const data = res.data;
             setReplyList(data);
         } catch (e) {
             console.log(e);
@@ -53,16 +60,16 @@ const Thread = () => {
 
     return ( 
         <>
-            <h1>Thread{id}</h1>
+        {console.log(replyList)}
+            <Typography component="div" variant="h2">
+                {thread.title}
+            </Typography>
             <Card sx={{display: "flex"}}>
                 <CardMedia>
                     <Avatar alt="Jemy Sharp" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Charles-Leclerc_%28cropped%29.jpg/640px-Charles-Leclerc_%28cropped%29.jpg"/>
                 </CardMedia>
                 <Box sx={{display: "flex", flexDirection: 'column'}}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
-                    <Typography component="div" variant="h5">
-                        {thread.title}
-                    </Typography>
                     <Typography variant="subtitle1" color="text.secondary" component="div">
                         {thread.body}
                     </Typography>
@@ -70,19 +77,22 @@ const Thread = () => {
                 </Box>
             </Card>
             {/* <List> */}
-            <Grid></Grid>
+            <Grid container rowSpacing={1} flexDirection={"column"}>
                 {replyList.map((reply) => (
-                    <Grid Container>
-                        <Grid item xs={3}>
-                            <Avatar src={reply.user.avatar} />  
-                            <Typography>{reply.user.username}</Typography>
-                            <Typography>{reply.date}</Typography>
+                    <Grid container>
+                        <Grid item>
+                            <Avatar src="https://ssl.gstatic.com/onebox/media/sports/logos/CpHtpHDYt6p7c2iQiM324g_64x64.png" />
+                            <Typography variant="subtitle1">{reply.author_id}</Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                {reply.created_at}
+                            </Typography>
                         </Grid>
-                        <Grid item xs={9}>
-                            <Typography>{reply.contents}</Typography>
+                        <Grid item xs>
+                            <Typography variant="body1">{reply.body}</Typography>
                         </Grid>
                     </Grid>
                 ))}
+            </Grid>
             {/* <ArticleAndThreadWriter moduleChoice="modulesReply" /> */}
             {/* </List> */}
         </>
@@ -91,3 +101,18 @@ const Thread = () => {
 }
 
 export default Thread;
+
+
+
+                    // <Grid Container>
+                    //     <Grid xs={2}>
+                    //         {/* <Avatar src={reply.user.avatar} />   */}
+                    //         <Item>
+                    //             <Typography>{reply.author_id}</Typography>
+                    //             <Typography>{reply.created_at}</Typography>
+                    //         </Item>
+                    //     </Grid>
+                    //     <Grid xs={9}>
+                    //         <Item><Typography>{reply.body}</Typography></Item>
+                    //     </Grid>
+                    // </Grid>
