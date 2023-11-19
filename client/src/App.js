@@ -77,7 +77,6 @@ const App = () => {
             <Route path='/:id/replies' element={ <Auth><Replies /></Auth>} />
             <Route path='/profile' element={ <Auth><Profile /></Auth>} />
             <Route path='/forum' element={ <Auth><Forum /></Auth>} />
-            <Route path='/:id/replies' element={ <Auth><Replies /></Auth>} />
             <Route path='/threads/:id' element={ <Auth><Thread /></Auth>} />
             <Route path='/article/:id' element={ <Auth><Article /></Auth>} />
             <Route path='/article/new' element={ <Auth><ArticleAndThreadWriter /></Auth>} />

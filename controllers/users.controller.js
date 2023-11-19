@@ -1,4 +1,4 @@
-const { _register, _login, _changeAvatar, _getUserInfo, _getUsernameById } = require("../models/users.model.js");
+const { _register, _login, _changeAvatar, _getUserById, _getUserInfo, _getUsersFromThread } = require("../models/users.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -41,7 +41,7 @@ const getUserInfo = async (req, res) => {
 const getUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await _getUsernameById(id);
+    const data = await _getUserById(id);
     if (data.length === 0) throw new Error(`User not found`);
     res.json(data[0]);
   } catch (err) {
@@ -78,10 +78,22 @@ const changeAvatar = async (avatar, email, res) => {
   }
 }
 
+const getUsersFromThread = async (req, res) => {
+  try {
+    const thread_id = req.params.thread_id;
+    const data = await _getUsersFromThread(thread_id);
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({msg : "unexpected error has occurred"});
+  }
+}
+
 module.exports = {
   register,
   login,
   changeAvatar,
   getUserInfo,
-  getUserById
+  getUserById,
+  getUsersFromThread
 };

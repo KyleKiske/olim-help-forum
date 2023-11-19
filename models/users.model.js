@@ -20,12 +20,11 @@ const _getUserInfo = (email) => {
         .where({ email });
 }
 
-const _getUsernameById = (id) => {
+const _getUserById = (id) => {
     return db("users")
-        .select("username")
+        .select("id", "username", "email", "avatar")
         .where({ id });
 }
-
 
 const _changeAvatar = (avatar, email) => {
     return db("users")
@@ -33,11 +32,19 @@ const _changeAvatar = (avatar, email) => {
         .where({ email })
         .returning(["id", "username", "email", "avatar"])
 }
+
+const _getUsersFromThread = (thread_id) => {
+    return db('users')
+        .distinct('users.id', 'users.username', 'users.avatar')
+        .join('replies', 'replies.author_id', '=', 'users.id')
+        .where('replies.thread_id', '=', thread_id)
+}
   
 module.exports = {
     _register,
     _login,
     _changeAvatar,
+    _getUserById,
     _getUserInfo,
-    _getUsernameById
+    _getUsersFromThread
 };

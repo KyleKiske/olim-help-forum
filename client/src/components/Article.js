@@ -82,7 +82,6 @@ const Article = () => {
                 navigate('/dashboard');
             }
         } catch (err) {
-            // console.log(res.status);
             console.error("Creation of article failed: ", err);
         }
     }
