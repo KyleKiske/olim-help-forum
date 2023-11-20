@@ -90,7 +90,6 @@ const Article = () => {
         try {
             const res = await axios.delete(`/api/articles/${id}`);
             const data = res.data;
-            console.log(data);
         } catch (err) {
             console.log(err);
         }

@@ -134,7 +134,6 @@ export const ThreadWriter = () => {
         try {
             const res = await axios.get(`/api/categories/`);
             const data = res.data;
-            console.log(data);
             setCategoryList(data);
         } catch (error) {
             console.log(error);

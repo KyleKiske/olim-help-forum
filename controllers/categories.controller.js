@@ -2,8 +2,6 @@ const { _create, _updateName, _getCategoryById, _getAllCategories, _deleteCatego
 require("dotenv").config();
 
 const createCategory = async (req, res) => {
-    const token = req.cookies.token;
-    console.log(token);
     try {
         const row = await _create(req.body.name);
         res.status(201).json({msg: "New category created"});
