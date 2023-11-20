@@ -5,13 +5,11 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from "@mui/material/Divider";
 import { Card, CardMedia, CardContent, List} from "@mui/material";
-import { styled } from '@mui/material/styles';
 import Grid from "@mui/material/Grid";
-import Pagination from "@mui/material/Pagination";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../App";
-import { ReplyWriter } from "./ArticleWriter";
+import { ReplyWriter } from "./Writers";
 import DOMPurify from 'dompurify';
 
 const Thread = () => {
@@ -75,7 +73,7 @@ const Thread = () => {
                     <CardMedia
                         component="img"
                         height="100px"
-                        image={author?.avatar || "https://res.cloudinary.com/dundmkgym/image/upload/v1700064196/vuferzkjl8zourz8bjk9.png"}
+                        image={author?.avatar || "https://res.cloudinary.com/dundmkgym/image/upload/v1699100199/Flag_of_Israel.svg_qbwtbd.webp"}
                         sx={{ borderRadius: '50%', width: "100px" }}
                     />
                     <CardContent sx={{paddingTop: "5px"}}>
@@ -108,11 +106,11 @@ const Thread = () => {
                             <CardMedia
                                 component="img"
                                 height="100px"
-                                image={replyAuthorList[reply.author_id - 1]?.avatar || "https://res.cloudinary.com/dundmkgym/image/upload/v1700064196/vuferzkjl8zourz8bjk9.pnghttps://i.redd.it/m8rc2evxc0l21.jpg"}
+                                image={replyAuthorList.find(author => author.id === reply.author_id)?.avatar || "https://res.cloudinary.com/dundmkgym/image/upload/v1699100199/Flag_of_Israel.svg_qbwtbd.webp"}
                                 sx={{ borderRadius: '50%', width: "100px" }}
                             />
                             <CardContent sx={{paddingTop: "5px"}}>
-                                <Typography variant="subtitle1" sx={{margin: "auto", width: "50%"}}>{replyAuthorList[reply.author_id - 1]?.username || "Deleted user"}</Typography>
+                                <Typography variant="subtitle1" sx={{margin: "auto", width: "50%"}}>{replyAuthorList.find(author => author.id === reply.author_id)?.username || "Deleted user"}</Typography>
                                 <Typography variant="body2" color="textSecondary">
                                         {new Date(reply.created_at).toLocaleString('en-GB', {
                                             day: 'numeric',

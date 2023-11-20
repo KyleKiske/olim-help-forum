@@ -6,7 +6,6 @@ import { AppContext } from "../App";
 import Avatar from '@mui/material/Avatar';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { ThreeDots } from 'react-loader-spinner'
 
 const UserContext = createContext();
 

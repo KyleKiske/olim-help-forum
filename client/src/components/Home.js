@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import Nav from "./Nav";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from '@mui/material/Container';
 import axios from "axios";
 import { AppContext } from "../App";
@@ -10,10 +9,7 @@ import DOMPurify from 'dompurify';
 
 const Home = () => {
     const { userInfo } = useContext(AppContext)
-    const [thread, setThread] = useState("");
     const [articleList, setArticleList] = useState([]);
-
-    const navigate = useNavigate();
 
     //👇🏻 The useEffect Hook
     useEffect(() => {

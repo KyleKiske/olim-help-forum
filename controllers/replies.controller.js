@@ -3,15 +3,7 @@ const { _create, _updateReplyById, _getReplyById, _getRepliesByThreadId, _getRep
 require("dotenv").config();
 
 const createReply = async (req, res) => {
-    const token = req.cookies.token;
-    console.log(token);
     const { author_id, thread_id, body } = req.body;
-    // try {
-    //     const decoded = jwt.verify(token, secret);
-    //     user_id = decoded.id;  
-    // } catch (error) {
-    //     return res.status(401).json({ error: 'Unauthorized' });
-    // }
     try {
         const row = await _create(author_id, thread_id, body);
         res.status(201).json({msg: "New Reply added"});

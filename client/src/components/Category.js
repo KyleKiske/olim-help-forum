@@ -1,49 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Typography from '@mui/material/Typography';
+import React, { useState, useContext } from 'react';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Grid from "@mui/system/Unstable_Grid/Grid";
-
-import Avatar from "@mui/material/Avatar";
-import { Card, CardMedia, CardContent} from "@mui/material";
-import { styled } from '@mui/material/styles';
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import axios from "axios";
+import TextField from '@mui/material/TextField';
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../App";
+import axios from "axios";
 
-const Category = () => {
+export const Category = () => {
+    const [title, setTitle] = useState("");
     const { userInfo } = useContext(AppContext);
-    const [threadList, setThreadList] = useState([]);
+    const navigate = useNavigate();
 
-    const getAllThreads = async (id) => {
+    const createCategory = async () => {
         try {
-            const res = await axios.get(`categories/${id}/threads`);
-            const data = res.data;
-            setThreadList(data);
+            const res = await axios.post(`/api/categories/create`, {name: title});
+            if (res.status === 201) {
+                alert("New Category created.")
+                navigate("/dashboard")
+            }
         } catch (e) {
             console.log(e);
         }
     }
 
-    useEffect(() => {
-        getAllThreads();
-    }, [])
+    function handleChange(e) {
+        setTitle(e.target.value);
+    }
 
     return (
-        <Container maxWidth="md">
-            <Grid container spacing={0}>
-                <Grid xs={3}>
-                    <Avatar></Avatar>
-                    <Typography>Posted on date!!!!!!!</Typography>
-                    <Typography>NickName</Typography>
-                </Grid>
-                <Grid xs={9}>
-                    <Typography>Contents of reply</Typography>
-                </Grid>
-            </Grid>
-        </Container>
-    )
+        <Box
+          component="form"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            '& > :not(style)': { m: 1, width: '25ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          {userInfo.superuser? (
+            <>
+                <TextField id="filled-basic" label="Category name" variant="filled" value={title} onChange={handleChange}/>
+                <Button variant='contained' onClick={createCategory}>Create</Button>
+            </>
+          ) : <></>}
+        </Box>
+    );
 }

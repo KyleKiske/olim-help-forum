@@ -3,22 +3,25 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { useState, createContext, useEffect } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Replies from './components/Replies';
 import Thread from './components/Thread';
 import Forum from './components/Forum';
 import Article from './components/Article';
-import { ArticleAndThreadWriter, ReplyWriter } from './components/Writer';
-import { ArticleWriter } from './components/ArticleWriter';
+import { ArticleWriter, ReplyWriter, ThreadWriter } from './components/Writers';
 import { ArticleEditor } from './components/Editor';
-// import ReplyWriter from './components/WriteArticle';
+import { Category } from './components/Category';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import Nav from './components/Nav';
 import { Auth } from "./auth/Auth";
 import axios from "axios";
+
 
 export const AppContext = createContext(null);
 
@@ -35,7 +38,6 @@ function Copyright() {
   );
 }
 
-
 const App = () => {
   const [token, setToken] = useState(null);
   const [uploaded, setUploaded] = useState(null);
@@ -43,7 +45,8 @@ const App = () => {
     user_id: null,
     username: '',
     email: '',
-    avatar: ''
+    avatar: '',
+    superuser: ''
   })
 
   useEffect(() => {
@@ -60,7 +63,8 @@ const App = () => {
         user_id: data.id,
         username: data.username,
         email: data.email,
-        avatar: data.avatar
+        avatar: data.avatar,
+        superuser: data.superuser
       })
     } catch (err) {
       console.log(err)
@@ -74,20 +78,18 @@ const App = () => {
         {token ? (
           <>
             <Route path='/dashboard' element={ <Auth><Home title='Home'/></Auth>} />
-            <Route path='/:id/replies' element={ <Auth><Replies /></Auth>} />
             <Route path='/profile' element={ <Auth><Profile /></Auth>} />
             <Route path='/forum' element={ <Auth><Forum /></Auth>} />
             <Route path='/threads/:id' element={ <Auth><Thread /></Auth>} />
             <Route path='/article/:id' element={ <Auth><Article /></Auth>} />
-            <Route path='/article/new' element={ <Auth><ArticleAndThreadWriter /></Auth>} />
+            <Route path='/category/new' element={ <Auth><Category /></Auth>} />
             <Route path='/reply/new' element={ <Auth><ReplyWriter /></Auth>} />
+            <Route path='/thread/new' element={ <Auth><ThreadWriter /></Auth>} />
             <Route path='/articleWriter' element={ <Auth><ArticleWriter /></Auth> } />
             <Route path='/editor' element={<Auth><ArticleEditor /></Auth>} />
           </>
         ) : (
           <>
-            {/* <Route path='/article/new' element={ <ArticleAndThreadWriter moduleChoice="modulesArticle" />} /> */}
-            {/* <Route path="*" element={<Navigate to="/login" />} /> */}
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register title="Register" />} />
             

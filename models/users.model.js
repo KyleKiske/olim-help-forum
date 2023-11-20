@@ -16,7 +16,7 @@ const _login = (email) => {
 
 const _getUserInfo = (email) => {
     return db("users")
-        .select("id", "username", "email", "avatar")
+        .select("id", "username", "email", "avatar", "superuser")
         .where({ email });
 }
 
@@ -35,7 +35,7 @@ const _changeAvatar = (avatar, email) => {
 
 const _getUsersFromThread = (thread_id) => {
     return db('users')
-        .distinct('users.id', 'users.username', 'users.avatar')
+        .select('users.id', 'users.username', 'users.avatar')
         .join('replies', 'replies.author_id', '=', 'users.id')
         .where('replies.thread_id', '=', thread_id)
 }

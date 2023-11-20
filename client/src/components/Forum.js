@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Link from "@mui/material/Link";
-import Box from '@mui/material/Box';
 import Divider from "@mui/material/Divider";
 import Container from '@mui/material/Container';
-import Avatar from "@mui/material/Avatar";
-import { Card, CardMedia, CardContent} from "@mui/material";
-import { styled } from '@mui/material/styles';
 
-import Thread from "./Thread";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useContext } from "react";
 import axios from "axios";
@@ -44,19 +38,19 @@ const Forum = () => {
             <Typography variant="h2">Categories</Typography>
             {categoryList && categoryList.map((category) => { 
                 return (
-                    <Accordion>
+                    <Accordion sx={{backgroundColor: "gainsboro"}}>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography >{category.name}</Typography>
+                            <Typography variant="h4">{category.name}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             {threadList.map((thread) => (
                                 thread.category_id == category.id && (
                                     <>
-                                        <Divider sx={{ borderBottomWidth: 2, bgcolor: "secondary.light"}}></Divider>
+                                        <Divider sx={{ borderBottomWidth: 2, bgcolor: "crimson"}}></Divider>
                                         <Link href={`/threads/${thread.id}`} underline="hover">{thread.title}</Link>
                                     </>                                     
                                 )

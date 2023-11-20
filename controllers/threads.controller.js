@@ -7,15 +7,6 @@ const { _create,
 require("dotenv").config();
 
 const createThread = async (req, res) => {
-    const token = req.cookies.token;
-    console.log(token);
-    // try {
-    //     const decoded = jwt.verify(token, secret);
-    //     user_id = decoded.id;  
-    // } catch (error) {
-    //     return res.status(401).json({ error: 'Unauthorized' });
-    // }
-    // const { author_id } = 1;
     const { category_id, title, body, author_id } = req.body;
     try {
         const row = await _create(category_id, title, body, author_id);
