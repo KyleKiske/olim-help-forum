@@ -4,7 +4,7 @@ const moment = require("moment");
 const _create =  (title, body, author_id, main_image) => {
     const created_at = moment().utc().format();
     return db("articles")
-        .insert({ title, body, author_id, created_at, main_image })
+        .insert({ title, body, author_id, created_at, main_image, "visible": false })
         .returning(["id", "title", "created_at", "main_image"]);
 };
   
