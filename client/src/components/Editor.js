@@ -27,7 +27,7 @@ export const ArticleEditor = () => {
 
     return (
         <Container maxWidth="md">
-            <Typography variant="h2">Unpublished Articles</Typography>
+            <Typography variant="h2" sx={{textAlign: "center"}}>Unpublished Articles</Typography>
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
                 {articleList && articleList.map((article) => { 
                     return (

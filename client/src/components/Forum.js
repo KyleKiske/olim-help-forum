@@ -35,7 +35,7 @@ const Forum = () => {
 
     return (
         <Container maxWidth="md">
-            <Typography variant="h2">Categories</Typography>
+            <Typography variant="h2" sx={{textAlign: "center"}}>Categories</Typography>
             {categoryList && categoryList.map((category) => { 
                 return (
                     <Accordion sx={{backgroundColor: "gainsboro"}}>

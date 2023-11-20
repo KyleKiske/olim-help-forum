@@ -57,16 +57,16 @@ export const ArticleWriter = () => {
     };
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md" sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <Typography variant='h2' textAlign="center">Write a new article</Typography>
-            <TextField label="Write an article Title" id="titleField" value={title} onChange={handleChange} sx={{m: 2, width: '100ch'}}/>
+            <TextField label="Write an article Title" id="titleField" value={title} onChange={handleChange} sx={{m: 2, width: '90ch'}}/>
             <ReactQuill 
                 theme='snow'
                 modules={modulesArticle}
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={createArticle}>Submit</Button>
+            <Button variant='contained' onClick={createArticle} sx={{width: "25%", marginTop: "10px"}}>Submit</Button>
         </Container>
     )   
 };
@@ -177,17 +177,18 @@ export const ThreadWriter = () => {
     };
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md" sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <Typography variant='h2' textAlign="center">Create a new thread</Typography>
             <TextField label="Write a thread Title" id="titleField" value={title} onChange={handleChange} sx={{m: 2, width: '100ch'}}/>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="Select-category">Category</InputLabel>
+                <InputLabel id="Select-category">Select Category</InputLabel>
                 <Select
                     labelId="Select-category"
                     id="select-thread-category"
                     value={category}
                     label="Category"
                     onChange={handleCategory}
+                    sx={{width: "30ch"}}
                 >
                     {categoryList.map((category) => (
                         <MenuItem
@@ -204,7 +205,7 @@ export const ThreadWriter = () => {
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={createThread}>Submit</Button>
+            <Button variant='contained' onClick={createThread} sx={{width: "25%", marginTop: "10px"}}>Submit</Button>
         </Container>
     )     
 };
