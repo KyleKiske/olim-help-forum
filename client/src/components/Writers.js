@@ -66,7 +66,7 @@ export const ArticleWriter = () => {
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={createArticle} sx={{width: "25%", marginTop: "10px"}}>Submit</Button>
+            <Button variant='contained' onClick={createArticle} sx={{width: "40%", marginTop: "100px"}}>Submit For further editing</Button>
         </Container>
     )   
 };
@@ -114,7 +114,7 @@ export const ReplyWriter = () => {
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={createReply}>Submit</Button>
+            <Button variant='contained' onClick={createReply} sx={{marginTop: "30px"}}>Submit</Button>
         </Container>
     )     
 };
@@ -204,7 +204,7 @@ export const ThreadWriter = () => {
                 value={value}
                 onChange={setValue}
                 style={writerStyle} />
-            <Button variant='contained' onClick={createThread} sx={{width: "25%", marginTop: "10px"}}>Submit</Button>
+            <Button variant='contained' onClick={createThread} sx={{width: "25%", marginTop: "100px"}}>Submit thread</Button>
         </Container>
     )     
 };
